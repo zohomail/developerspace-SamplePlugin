@@ -1,0 +1,20 @@
+{
+  "locale": [
+    "en"
+  ],
+  "defaultLocale": "en",
+  "service": "MAIL",
+  "storage": false,
+  "whiteListedDomains": ["https://notebook.zoho.com/api/v1/"],
+  "modules": {
+    "widgets": [
+      {
+        "location": "zoho.mail.preview.rightpanel",
+        "name": "Sample Plugin",
+        "url": "/app/widget.html"
+      }
+    ]
+  },
+  "connectors": [{"serviceName": "Notebook"}],
+  "config": []
+}
