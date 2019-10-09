@@ -150,10 +150,14 @@ window.appView.populateNotebooks = function () {
                 });
                 return;
             }
-            $("#notelist").html('<div class="centerDiv">No notebook found.<a href="//notebook.zoho.com">Click here to create</a></div>');
+            $("#notelist").html('<div class="centerDiv">No notebook found.<a href="//notebook.zoho.com" target="_blank">Click here to create</a></div>');
             $("#setAppdata").remove();
             $("#deleteAppdata").remove();
         }
+    }, function () {
+        $("#notelist").html('<div class="centerDiv">Unable to authenticate connector.<br><a href="//mail.zoho.com/zm/#settings/all/integrations-settings/DeveloperSpace/connectors" target="_blank">Click here to create</a></div>');
+        $("#setAppdata").remove();
+        $("#deleteAppdata").remove();
     });
 };
 window.appView.populateAttachmentDetails = function (mailData) {
