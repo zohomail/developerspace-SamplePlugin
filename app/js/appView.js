@@ -97,7 +97,7 @@ window.appView.populateRelationalData = function (msgId) {
             '<li class="hasChild">' +
                 '<ul>' +
                 '<li>' +
-                    '<strong>Relational data for ' + msgId + '</strong>' +
+                    '<strong>Relational data for preview mail</strong>' +
                     '<span id="rdata" style="color:green"></span>' +
                 '</li>' +
                 '</ul>' +
@@ -105,7 +105,7 @@ window.appView.populateRelationalData = function (msgId) {
         '</ul>' +
         '<textarea class="composeBox" id="relationData"></textarea>' +
         '<ul><li><strong><u>Note</u> : Only Json Object is allowed</strong></li></ul>' +
-        '<span class="PluginButton" id="setMailData">Set Relational Data for ' + msgId + '</span>' +
+        '<span class="PluginButton" id="setMailData">Set Relational Data for preview mail</span>' +
         '</div>';
         rootElement.innerHTML = _template;
         $("#rdata").text(rdataObj ? JSON.stringify(rdataObj) : "No data found");
