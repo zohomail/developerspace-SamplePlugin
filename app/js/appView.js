@@ -163,6 +163,9 @@ window.appView.populateNotebooks = function () {
 window.appView.populateAttachmentDetails = function (mailData) {
     let rootElement = document.getElementById("attachmentCont");
     rootElement.innerHTML = "";
+    if (mailData.type === "attachment") {
+        mailData.NEWATTR = mailData.data;
+    }
     if (!$.isEmptyObject(mailData.NEWATTR)) {
 
         mailData.NEWATTR.forEach(function (attachmentData, index) {
@@ -241,6 +244,34 @@ window.appView.bindAppEvents = function () {
 
 window.appView.bindApiEvents = function () {
 
+    $("#attachDeskTopCont input").change(function () {
+        let file = $("#attachDeskTopCont input")[0].files;
+        let type = file[0] && file[0].type;
+        if (noteId !== "1" && type && ["gif", "png", "jpeg", "jpg", "bmp", "tiff", "tif"].includes(type.substr(type.indexOf("/") + 1,))) {
+            let xhrObj = {
+                url: 'https://notebook.zoho.com/api/v1/cards/image',
+                type: 'POST',
+                serviceName: 'Notebook',
+                fileData: new Blob(file),
+                file: {
+                    fileName: file[0].name,
+                    fileParamName: "attachment"
+                },
+                attachPayload: {
+                    JSONString: {
+                        notebook_id: noteId,
+                        notecard_name: file[0].name
+                    }
+                }
+            };
+            $("#insertFromDesk").click(function () {
+                apiUtil.executeURL(xhrObj);
+            });
+            $("#insertFromDesk").slideDown();
+            return;
+        }
+        $("#insertFromDesk").slideUp();
+    });
     $("#compose").click(function () {
         let composeObj = {
             SUBJECT: "Sales Pitch",
