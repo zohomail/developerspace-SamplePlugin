@@ -10,6 +10,8 @@ SamplePlugin will let you explore the Zoho Mail Developer Space APIs mentioned i
 - Get contact details of sender of previewed email or search for contact with email
 - View email relation data of open email and set relation data for an email. 
 - Upload image attachments in an email to Zoho Notebook via connectors
+- Upload attachments from Desktop to Zoho Notebook via connectors
+- Drag and drop emails and attachments to Plugin
 
 
 # PRE-REQUISITES
