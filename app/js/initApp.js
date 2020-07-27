@@ -30,6 +30,25 @@ ZMSDK.app.on("mail_preview", function (mailObj) {
 });
 
 /**
+ *  Event to detect compose window open
+*/
+ZMSDK.app.on("compose_open", () => {
+    window.apiUtil.getComposeDetails().then((composeInfo) => {
+        console.log(composeInfo);
+        window.appView.populateCurrentComposeDetails(composeInfo);
+    });
+});
+
+/**
+ *  Event to get saved draft content
+*/
+
+ZMSDK.app.on("draft_save", (draftContent) => {
+    console.log(draftContent);
+    window.appView.populateSavedDraftDetails(draftContent);
+});
+
+/**
  * Event to get dragged mail content
  */
 ZMSDK.app.on("drop", function (dropInfo) {

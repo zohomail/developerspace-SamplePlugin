@@ -51,6 +51,57 @@ window.appView.populateCurrentMailDetails = function (mailData) {
     });
 };
 
+window.appView.populateCurrentComposeDetails = (composeData) => {
+    let rootElement = document.getElementById("composeInfo"),
+        _template;
+    if ($.isEmptyObject(composeData)) {
+        _template = '<div class="centerDiv">Save the draft to view details</div>';
+        rootElement.innerHTML = _template;
+        return;
+    }
+    _template = '<ul>' +
+    '<li class="hasChild">' +
+        '<ul>' +
+            '<li><strong>Subject</strong><span id="subject"></span></li>' +
+            '<li><strong>Content</strong><span id="content"></span></li>' +
+            '<li><strong>Email IDs</strong><span id="emailIds"></span></li>' +
+        '</ul>' +
+    '</li></ul>';
+    rootElement.innerHTML = _template;
+    $("#subject").text(composeData.subject || "-");
+    $("#content").text(composeData.comtent || "-");
+    $("#emailIds").text(composeData.emailIds.length ? composeData.emailIds.join("\n") : "-");
+};
+
+window.appView.populateSavedDraftDetails = (draftData) => {
+    let rootElement = document.getElementById("composeInfo");
+    let _template = '<ul>' +
+    '<li class="hasChild">' +
+        '<ul>' +
+            '<li><strong>Draft Id</strong><span id="DraftId" style="color:green"></span></li>' +
+            '<li><strong>TO</strong><span id="to"></span></li>' +
+            '<li><strong>BCC</strong><span id="bcc"></span></li>' +
+            '<li><strong>CC</strong><span id="cc"></span></li>' +
+            '<li><strong>CmpId</strong><span id="cmpId"></span></li>' +
+            '<li><strong>Content</strong><span id="content"></span></li>' +
+            '<li><strong>Subject</strong><span id="subject"></span></li>' +
+        '</ul>' +
+    '</li></ul>';
+    if ($.isEmptyObject(draftData)) {
+        _template = '<div class="centerDiv">Save the draft to view details</div>';
+        rootElement.innerHTML = _template;
+        return;
+    }
+    rootElement.innerHTML = _template;
+    $("#DraftId").text(draftData.draftId || "-");
+    let {draftObj} = draftData;
+    if (draftObj) {
+        Object.keys(draftObj).forEach(function (key) {
+            $("#" + key).text(draftObj[key] || "-");
+        });
+    }
+};
+
 window.appView.populateContactDetails = function (contactObj) {
     let rootElement = document.getElementById("contactInfo"),
         _template;

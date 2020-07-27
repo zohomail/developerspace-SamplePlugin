@@ -3,7 +3,15 @@ var apiCore = {
      * Get Mail details using message ID
      */
     getMailDetails: function (messageId) {
-        return ZMSDK.mail.getMailDetails(messageId, ["SUBJECT", "SM", "NEWATTR", "CONTENT"]);
+        return ZMSDK.mail.getMailDetails(messageId);
+    },
+
+    /**
+     * Get currently opened compose details
+     */
+
+    getComposeDetails: function () {
+        return ZMSDK.mail.getCurrentComposeDetails();
     },
 
     /**
