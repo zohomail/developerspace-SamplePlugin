@@ -3,7 +3,7 @@ var apiCore = {
      * Get Mail details using message ID
      */
     getMailDetails: function (messageId) {
-        return ZMSDK.mail.getMailDetails(messageId);
+        return AppSDK.get(["mailInfo",messageId]);
     },
 
     /**
@@ -11,28 +11,31 @@ var apiCore = {
      */
 
     getComposeDetails: function () {
-        return ZMSDK.mail.getCurrentComposeDetails();
+        return AppSDK.dispatch("compose", {mailData:{}});
     },
 
     /**
      * Compose mail with subject, to, cc, bcc and content prepopulated
      */
     composeNewMail: function (composeObj) {
-        ZMSDK.mail.composeNewMail(composeObj);
+        return AppSDK.dispatch("compose",{mailData: composeObj});
     },
 
     /**
      * Insert content to compose window if already present, else creates new window
      */
     insertMailContent: function (content) {
-        ZMSDK.mail.insertMailContent(content);
+        return AppSDK.dispatch("compose", {
+            mode: "insert",
+            mailData: content
+        });
     },
 
     /**
      * Get contact details by zuid
      */
     getContactbyZuid: function (zuid) {
-        ZMSDK.contact.getContactDetails({zuid}).then(function (contactObj) {
+        AppSDK.get(["contactInfo", {zuid}]).then(contactObj=>{
             console.log(contactObj);
             window.appView.populateContactDetails(contactObj);
         });
@@ -42,7 +45,7 @@ var apiCore = {
      * Get contact details by email address
      */
     getContactbyEmailId: function (eid) {
-        ZMSDK.contact.getContactDetails({eid}).then(function (contactObj) {
+        AppSDK.get(["contactInfo", {eid}]).then(contactObj=>{
             console.log(contactObj);
             window.appView.populateContactDetails(contactObj);
         });
@@ -52,66 +55,90 @@ var apiCore = {
      * Download attachment from mail and upload to url using callbackApiXhr
      */
     downloadAttachment: function (attachObj, callbackApiXhr) {
-        return ZMSDK.mail.downloadAttachment(attachObj, callbackApiXhr);
+        return AppSDK.dispatch("downloadAttachment", {
+            attachInfo:attachObj,
+            callbackApiXhr
+            });
     },
 
     /**
      * Reply to a mail
      */
     reply: function (messageId) {
-        ZMSDK.mail.replyToMail(messageId);
+        AppSDK.dispatch("mailActions", {
+            msgId: messageId,
+            mode: "reply"
+        });
     },
 
     /**
      * reply all to a mail
      */
     replyAll: function (messageId) {
-        ZMSDK.mail.replyToMail(messageId, true);
+        AppSDK.dispatch("mailActions", {
+            msgId: messageId,
+            mode: "replyall",
+            });
     },
 
     /**
      * Forward a mail
      */
     forwardMail: function (messageId) {
-        ZMSDK.mail.forwardMail(messageId);
+        AppSDK.dispatch("mailActions", {
+            msgId: messageId,
+            mode: "fwdi"
+            });
     },
     setMailRelationalData: function (messageId, data) {
-        return ZMSDK.mail.setRelationData(messageId, data);
+        data.msgId = messageId
+        return AppSDK.dispatch("associateApp", data);
     },
 
     /**
      * Get app data for an email
      */
     fetchMailRelationalData: function (messageId) {
-        return ZMSDK.mail.getRelationData(messageId);
+        return AppSDK.dispatch("integData", {
+            msgId: messageId
+        });
     },
 
     /**
      * Send request to other service
      */
     executeURL: function (xhrObj) {
-        return ZMSDK.app.invokeUrl({ xhrObj});
+        return AppSDK.dispatch("invokeUrl",{ xhrObj});
     },
     
     /**
      * Store data specific to the app
      */
     setAppData: function (appData) {
-        return ZMSDK.app.data.set(appData);
+        return AppSDK.dispatch("data", {
+            operation: "set",
+            data:appData
+        });
     },
 
     /**
      * Fetch data stored specific to the app
      */
     fetchAppDetail: function (dataList) {
-        return ZMSDK.app.data.get(dataList);
+        return AppSDK.dispatch("data", {
+            operation: "get",
+            params:dataList
+        });
     },
 
     /**
      * Delete the dara stored specific to the app
      */
     deleteAppData: function (dataList) {
-        return ZMSDK.app.data.delete(dataList);
+        return AppSDK.dispatch("data", {
+            operation: "delete",
+            data:dataList
+        });
     }
 };
 
