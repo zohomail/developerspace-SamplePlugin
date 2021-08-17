@@ -3,7 +3,12 @@
 <head>
   <title>Sample Plugin Api Implementation</title>
   <meta charset="UTF-8">
-  <script src="https://js.zohostatic.com/zmail/zmsdk/v1/zmailsdk.min.js"></script>
+  <script async=false>
+      (function() {
+        var src = window.location.host.split(".").slice(2).join(".") === "com.cn" ? "https://js-stratus.zohostatic.com.cn/sigma/client/sdk/v1/sigma-sdk.min.js" : "https://static.zohocdn.com/sigma/client/sdk/v1/sigma-sdk.min.js";
+        document.write('<script src="' + src + '"><\/script>');
+    })();
+   </script>
   <script src="./js/jquery-min.js"></script>
   <script src="./js/apiUtil.js"></script>
   <script src="./js/appView.js"></script>
