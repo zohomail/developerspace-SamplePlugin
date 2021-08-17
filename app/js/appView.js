@@ -329,12 +329,12 @@ window.appView.bindApiEvents = function () {
             TO: "charles@zylker.com",
             CC: "paula@zylker.com",
             BCC: "admin@zylker.com, aura@zylker.com",
-            CONTENT: $("#composeArea").text()
+            CONTENT: $("#composeArea")[0].value
         };
         apiUtil.composeNewMail(composeObj);
     });
     $("#insert").click(function () {
-        apiUtil.insertMailContent($("#composeArea").text());
+        apiUtil.insertMailContent($("#composeArea")[0].value);
     });
 
     $("#contactBtn").click(function () {
