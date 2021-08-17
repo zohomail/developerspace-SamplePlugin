@@ -2,9 +2,8 @@
  * Initialise App to get events from Mail
  * Return @param {*} initObj contains the Night Mode, language and font details
  */
-ZMSDK.app.init().then(function (initObj) {
-    console.log(initObj);
-    ZMSDK.app.listenDrop(true);
+window.AppSDK = SigmaSDK.MAIL.init(() =>{
+    AppSDK.dispatch("drop",{isListen: true}); 
     window.appView.populateNotebooks();
     window.appView.populateAppData();
 });
@@ -22,7 +21,7 @@ let populateMailDetails = function (mailInfo) {
 /**
  * Subscribe to Events you need using ZMSDK.app.on()
 */
-ZMSDK.app.on("mail_preview", function (mailObj) {
+AppSDK.on("mail_preview", function (mailObj) {
     window.apiUtil.getMailDetails(mailObj.MSGID).then( function (mailInfo) {
         console.log(mailInfo);
         populateMailDetails(mailInfo);
@@ -32,18 +31,18 @@ ZMSDK.app.on("mail_preview", function (mailObj) {
 /**
  *  Event to detect compose window open
 */
-ZMSDK.app.on("compose_open", () => {
-    window.apiUtil.getComposeDetails().then((composeInfo) => {
-        console.log(composeInfo);
-        window.appView.populateCurrentComposeDetails(composeInfo);
-    });
-});
+// AppSDK.on("compose_open", () => {
+//     window.apiUtil.getComposeDetails().then((composeInfo) => {
+//         console.log(composeInfo);
+//         window.appView.populateCurrentComposeDetails(composeInfo);
+//     });
+// });
 
 /**
  *  Event to get saved draft content
 */
 
-ZMSDK.app.on("draft_save", (draftContent) => {
+AppSDK.on("draft_save", (draftContent) => {
     console.log(draftContent);
     window.appView.populateSavedDraftDetails(draftContent);
 });
@@ -51,7 +50,7 @@ ZMSDK.app.on("draft_save", (draftContent) => {
 /**
  * Event to get dragged mail content
  */
-ZMSDK.app.on("drop", function (dropInfo) {
+ AppSDK.on("drop", function (dropInfo) {
     console.log(dropInfo);
     let data = dropInfo.data && dropInfo.data[0];
     if (dropInfo.type === "mail") {
@@ -67,7 +66,7 @@ ZMSDK.app.on("drop", function (dropInfo) {
 /**
  * Event to detect preview mail close
  */
-ZMSDK.app.on("mail_close", function () {
+ AppSDK.on("mail_close", function () {
     window.appView.populateCurrentMailDetails({});
     window.appView.populateContactDetails();
     window.appView.populateRelationalData();
@@ -76,7 +75,8 @@ ZMSDK.app.on("mail_close", function () {
 /**
  * Get the Night Mode and Font settings of the inbox, inside your application.
  */
-ZMSDK.app.on("mail_setting", function (mailSettingsData) {
+
+ AppSDK.on("mail_setting", function (mailSettingsData) {
     console.log(mailSettingsData);
 });
 
